@@ -4,7 +4,7 @@
   "description": "Realisation d'un CRUD NODE-EXPRESS-MONGODB",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node app"
   },
   "keywords": [
     "NODEJS",
@@ -13,5 +13,8 @@
     "TWIG"
   ],
   "author": "MokkaCobain",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.3"
+  }
 }
