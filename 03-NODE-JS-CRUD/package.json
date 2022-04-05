@@ -4,7 +4,7 @@
   "description": "Realisation d'un CRUD NODE-EXPRESS-MONGODB",
   "main": "app.js",
   "scripts": {
-    "start": "node app"
+    "start": "nodemon app"
   },
   "keywords": [
     "NODEJS",
@@ -16,5 +16,8 @@
   "license": "ISC",
   "dependencies": {
     "express": "^4.17.3"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.15"
   }
 }
