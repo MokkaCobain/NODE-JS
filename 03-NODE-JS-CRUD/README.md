@@ -17,7 +17,6 @@
 9. Création du serveur app avec module express dans app.js comme ci-suit :
 
 ////////////////////////////////////
-
 const express = require('express');
 const app = express();
 
@@ -28,25 +27,21 @@ app.get('/', function (req, res) {
 app.listen(3000, () => {
     console.log('http://localhost:3000');
 }))
-
 ////////////////////////////////////////
 
 
 10. Modification de la route par défaut GET et ajout d'un code de statut de sa réponse (source : https://developer.mozilla.org/fr/docs/Web/HTTP/Status) comme ci-suit : 
 
 ////////////////////////////////////////
-
 app.get('/dwwm/stagiaires', function (req, res) {
     res.status(200).send('Hello World : I\'ll love JS one day...');
 })
-
 ////////////////////////////////////////
 
 
 11. Convertir la réponse du serveur en objet JSON comme ci-suit : 
 
 ////////////////////////////////////////
-
 app.get('/dwwm/stagiaires', function (req, res) {
     res
     .status(200)
@@ -56,14 +51,12 @@ app.get('/dwwm/stagiaires', function (req, res) {
         heure : Date.now()
     });
 });
-
 ////////////////////////////////////////
 
 
 12. Ajout de la route POST pour modification base de donnée comme ci-suit : 
 
 //////////////////////////////////////////
-
 app.post('/dwwm/stagiaires', (req, res) => {
     res
     .status(200).json({
@@ -71,7 +64,6 @@ app.post('/dwwm/stagiaires', (req, res) => {
         message : 'Route POST OK'
     });
 });
-
 ////////////////////////////////////////
 
 
@@ -81,7 +73,6 @@ app.post('/dwwm/stagiaires', (req, res) => {
 
 /////////////////////////////////////////////////
 //Le parametre :id est indiqué dans la route
-
 app.get('/dwwm/stagiaires/:id', function (req, res) {
     //.params = cible les paramètres indiqués dans la route
     console.log(req.params);
@@ -92,7 +83,6 @@ app.get('/dwwm/stagiaires/:id', function (req, res) {
                 message : 'Route GET BY ID OK'
             });
 });
-
 /////////////////////////////////////////////////
 
 
@@ -106,7 +96,6 @@ app.get('/dwwm/stagiaires/:id', function (req, res) {
 1. Création des controleurs qui stock les fonctions autrefois dans les routes. Exemple comme ci-suit :
 
 /////////////////////////////////////////////////
-
 const allStagiaires = function (req, res) {
     res
         .status(200)
@@ -118,14 +107,12 @@ const allStagiaires = function (req, res) {
 
 // La route devient : 
 app.get('/dwwm/stagiaires', allStagiaires);
-
 /////////////////////////////////////////////////
 
 
 2. Factorisation des routes (source : https://expressjs.com/fr/guide/routing.html). Exemple comme ci-suit :
 
 /////////////////////////////////////////////////
-
 app.route('/dwwm/stagiaires')
     .get(allStagiaires)
     .post(addStagiaire);
@@ -135,13 +122,11 @@ app.route('/dwwm/stagiaires/:id')
     .get(getStagiaireById)
     .put(updateStagiaireById)
     .delete(deleteStagiaireById);
-
 /////////////////////////////////////////////////
 
 3. Les middlewares : fonctions qui s'exécutent entre les échanges serveur/client à placer AVANT les routes concernées par la fonction. Exemple comme ci-suit :
 
 /////////////////////////////////////////////////
-
 function monMiddleWare (req, res, next) {
     // on crée un objet personne avec 2 clés, 2 valeurs
     let personne = {};
@@ -154,7 +139,6 @@ function monMiddleWare (req, res, next) {
 
 
 app.use(monMiddleWare); //Appel du middelware
-
 /////////////////////////////////////////////////
 
 4. Le middleware des routes = organisation des fichiers MVC
@@ -164,10 +148,8 @@ b. Création d'un fichier stagiaireRoute.js
 c. Ajout des lignes au début :
 
 //////////////////////////////////
-
 const express = require('express');
 const router = express.Router();
-
 //////////////////////////////////
 
 
@@ -175,9 +157,7 @@ d. Copier/Coller les controllers + les routes dans le fichier js
 e. Ajout de la ligne à la fin : 
 
 //////////////////////////////////
-
 module.exports = router;
-
 //////////////////////////////////
 
 
@@ -187,16 +167,12 @@ module.exports = router;
 a. On importe le fichier des routes comme un module au début du fichier : 
 
 //////////////////////////////////
-
 const stagiaireRouter = require('./routes/stagiaireRoutes')
-
 //////////////////////////////////
 
 
 b. Appel du middleware  des routes (mini-app) après instanciation du serveur : 
 
 //////////////////////////////////
-
 app.use(stagiaireRouter)
-
 //////////////////////////////////
