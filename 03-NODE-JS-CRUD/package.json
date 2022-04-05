@@ -1,0 +1,17 @@
+{
+  "name": "nodejs-crud",
+  "version": "1.0.0",
+  "description": "Realisation d'un CRUD NODE-EXPRESS-MONGODB",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "NODEJS",
+    "EXPRESS",
+    "MOGODB",
+    "TWIG"
+  ],
+  "author": "MokkaCobain",
+  "license": "ISC"
+}
