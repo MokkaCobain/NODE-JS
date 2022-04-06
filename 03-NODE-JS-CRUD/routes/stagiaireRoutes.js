@@ -1,6 +1,7 @@
 
 // Import des modules
 const express = require('express');
+// Import de la classe Router
 const router = express.Router();
 
 // Import du fichier des controllers

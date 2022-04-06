@@ -215,6 +215,8 @@ router
 
 /********************* III. Base de donnée *********************/
 
+I) Confirguration
+
 1. Installation de MonGoDB avec la commande : npm i mongoose (source : https://www.npmjs.com/package/mongoose). La clé apparait dans package.json 
 
 2. Connexion à la database avec organisation mvc 
@@ -263,6 +265,74 @@ exports.mongoConnexion = (async () => {
         })
 })()
 //////////////////////////////////
+
 ||Pour rappel, "await" permet d'exécuter une fonction asynchrone entièrement avant d'exécuter la suite du code||
 
+II) Construction Database
 
+1. Organisation mvc 
+a. création du dossier models
+b. création du fichier stagiaireModel.js
+
+
+2. Création du model Stagiaire (la table stagiaire de la database)
+(source : https://mongoosejs.com/docs/guide.html#definition)
+Le langage MonGoDB est le BSON. Pour pouvoir écrire en JSON et le traduire à la database, on utilise mongoose...
+
+a. Donc d'abord, on importe le module mongoose comme ci-suit :
+
+//////////////////////////////////
+const mongoose = require('mongoose');
+//////////////////////////////////
+
+b. Pour construire un model (une table) avec mongoose, tout commence par un schema. On importe la classe Schema avec : 
+
+//////////////////////////////////
+const Schema = mongoose.Schema;
+//////////////////////////////////
+
+c. On peut maintenant instancier un objet à partir de la class Schema, lui attribuer les clés et le type des valeurs pour chaque clé. Cela donne :
+
+//////////////////////////////////
+StagiaireSchema = new Schema({
+    prenom: String
+});
+//////////////////////////////////
+
+d. On crée le model (la table) avec son nom, et la const qui stock le schema. C'est-à-dire : 
+
+//////////////////////////////////
+const Stagiaire = mongoose.model('Stagiaires', StagiaireSchema);
+//////////////////////////////////
+
+e. On exporte le model avec :
+
+//////////////////////////////////
+module.exports = Stagiaire;
+//////////////////////////////////
+
+|| Le model (la table) "Stagiaire" aura 1 document (une ligne) "prenom" dont les valeurs seront des chaine de caractère||
+
+3. Lecture du model depuis le controller 
+(source : https://mongoosejs.com/docs/api.html#model_Model.find)
+a. Etablir la connexion entre les controllers et les models. Dans le fichier stagiaireControllers : 
+
+//////////////////////////////////
+const Stagiaire = require('../models/stagiaireModel');
+//////////////////////////////////
+
+b. Communiquer le model à la database via la requete du controller. Dans ce cas, on crée le model Stagiaires qui regroupe les datas de TOUS les stagiaires. Cela concerne la fonction allStagiaires. Ajoutons le model avec la methode .find() à la fonction allStagiaires du controller, puis la rendre asynchrone, comme ci-suit : 
+
+//////////////////////////////////
+exports.allStagiaires =  async function (req, res) {
+     // On apelle le model
+    const tousStagiaires = await Stagiaire.find({});
+
+    res
+        // On renvoie le model dans la reponse
+        .json(tousStagiaires);
+};
+//////////////////////////////////
+
+4. Les fonctions mongoose pour communiquer avec la base de données en JSON 
+(source : https://mongoosejs.com/docs/queries.html)
