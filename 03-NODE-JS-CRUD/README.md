@@ -1,12 +1,12 @@
-/********************* ETAPES DU PROJET *********************/
+/******************************************* ETAPES DU PROJET *******************************************/
 
-/*** I. INITIALISATION ***/
+/********************* I. INITIALISATION *********************/
 1. Création du répertoire de projet 
 2. On se déplace à l'intérieur du répo
 3. On initialise notre projet à nodejs avec : npm init (pour création du fichier package json)
 
 4. Création du fichier app.js
-5. Modification du script package json = ajout clé "start" avec valeur "node app"
+5. Modification du script package json = ajout clé "start" avec valeur "node app" + Modification de la clé "main" = "app.js"
 6. Test du script avec la commande npm start
 
 7. Installation de node express avec la commande = npm i express (le dossier node_modules apparait + package-lock-js + la clé "dependencies" dans le fichier package.json)
@@ -91,7 +91,7 @@ app.get('/dwwm/stagiaires/:id', function (req, res) {
 
 15. Ajout de la route DELETE BY ID pour supprimer 1 stagiaire en base de donnée à partir de son ID (voir app.js)
 
-/*** II. ORGANISATION MVC ***/
+/********************* II. ORGANISATION MVC *********************/
 
 1. Création des controleurs qui stock les fonctions autrefois dans les routes. Exemple comme ci-suit :
 
@@ -137,15 +137,14 @@ function monMiddleWare (req, res, next) {
     next();
 };
 
-
 app.use(monMiddleWare); //Appel du middelware
 /////////////////////////////////////////////////
 
-4. Le middleware des routes = organisation des fichiers MVC
+4. Organisation des fichiers MVC = Les routes 
 (source : https://expressjs.com/fr/guide/routing.html)
 a. Création d'un dossier routes
 b. Création d'un fichier stagiaireRoute.js
-c. Ajout des lignes au début :
+c. Ajout des lignes au début pour importer le module express:
 
 //////////////////////////////////
 const express = require('express');
@@ -176,3 +175,94 @@ b. Appel du middleware  des routes (mini-app) après instanciation du serveur :
 //////////////////////////////////
 app.use(stagiaireRouter)
 //////////////////////////////////
+
+
+6. Organisation des fichiers mvc = les controllers 
+a. création du dossier controllers
+b. création du fichier stagiaireControllers.js 
+c. Ajout des lignes au début 
+d. copier/coller les controllers qui stockent les fonctions 
+e. exporter ces fonctions en remplaçant "const" par "exports." comme ci-suit :
+
+//////////////////////////////////
+exports.allStagiaires = function (req, res) {
+    res
+        .status(200)
+        .json({
+            status : res.statusCode,
+            message: 'Route GET ALL OK',
+        });
+};
+//////////////////////////////////
+
+
+f. import du fichier controller dans le fichier route avec le fameux : 
+
+//////////////////////////////////
+const controller = require('../controllers/stagiaireControllers');
+//////////////////////////////////
+
+
+g. les fonctions appelées dans les routes prennent le préfixes controller comme ci-suit :
+
+//////////////////////////////////
+router
+    .route('/dwwm/stagiaires')
+    .get(controller.allStagiaires)
+    .post(controller.addStagiaire);
+//////////////////////////////////
+
+
+/********************* III. Base de donnée *********************/
+
+1. Installation de MonGoDB avec la commande : npm i mongoose (source : https://www.npmjs.com/package/mongoose). La clé apparait dans package.json 
+
+2. Connexion à la database avec organisation mvc 
+a. création du dossier config à la racine
+b. création du ficher database.js à l'intérieur du dossier
+c. import du module mongoose dans le fichier database.js comme ci-suit :
+
+//////////////////////////////////
+const mongoose = require('mongoose');
+//////////////////////////////////
+
+
+d. ecrire la fonction pour établir la connexion à la database (elle doit pouvoir être exportée ensuite) : 
+
+//////////////////////////////////
+exports.mongoConnexion = async () => {
+    await mongoose 
+        .connect('mongodb://localhost:27017/stagiaire_db')
+        .then(()=>{
+            console.log('Connexion au serveur mongogo ok !');
+        })
+        .catch(erreur => {
+            console.log('Connexion au serveur mongogo failed', erreur.message);
+        })
+}
+//////////////////////////////////
+
+
+e. importer la fonction de connexion à la database dans le fichier principal app.js 
+
+//////////////////////////////////
+require('./config/database.js');
+//////////////////////////////////
+
+f. pour que la fonction de connexion à la database s'exécute automatiquement il faut la transformer en fonction auto-appelante (IEF) c'est-à-dire l'entourer de parenthèse et rajouter () sans argument. Comme ci-suit : 
+
+//////////////////////////////////
+exports.mongoConnexion = (async () => {
+    await mongoose 
+        .connect('mongodb://localhost:27017/stagiaire_db')
+        .then(()=>{
+            console.log('Connexion au serveur mongogo ok !');
+        })
+        .catch(erreur => {
+            console.log('Connexion au serveur mongogo failed', erreur.message);
+        })
+})()
+//////////////////////////////////
+||Pour rappel, "await" permet d'exécuter une fonction asynchrone entièrement avant d'exécuter la suite du code||
+
+

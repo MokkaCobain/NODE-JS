@@ -1,13 +1,13 @@
 // Test du script start
 console.log("TEST");
 
-///////////////////////////////////////////////////////
-
 // IMPORT DES MODULES DE L'APP
 const express = require('express');
 
-// Appel du fichier des routes
-const stagiaireRouter = require('./routes/stagiaireRoutes')
+// Import du fichier des routes
+const stagiaireRouter = require('./routes/stagiaireRoutes');
+// Import de la config database
+require('./config/database.js');
 
 ///////////////////////////////////////////////////////
 
