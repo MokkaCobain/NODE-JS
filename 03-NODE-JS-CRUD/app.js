@@ -1,20 +1,27 @@
-// Test du script start
-console.log("TEST");
-
-///////////////////////////////////////////////////////
 
 // Import du module express
 const express = require('express');
-
-// Import du fichier des routes
+// Module de view
+const twig = require('twig');
+const path = require('path');
+// Import du module des routes
 const stagiaireRouter = require('./routes/stagiaireRoutes');
-// Import de la config database
+// Import de dotenv
+require('dotenv').config();
+// Import du module de ma database
 require('./config/database.js');
 
 ///////////////////////////////////////////////////////
 
 // INSTANCE DE SERVEUR (=app)
 const app = express();
+
+// DECLARATION DU MOTEUR DE VUE
+app.set ('view engine', 'twig');
+
+// Chemin vers les vue
+app.set('views', path.join(__dirname, 'views'));
+
 
 ///////////////////////////////////////////////////////
 
@@ -23,28 +30,20 @@ const app = express();
 // Interprêter toutes les requetes au format JSON
 app.use(express.json());
 
-// Middleware des routes
-app.use(stagiaireRouter);
+// Middleware des routes avec la racine + le fichier routes
+app.use('/dwwm/stagiaires', stagiaireRouter);
 
-// // Middleware de l'objet personne
-// function mesPersonnes (req, res, next) {
-//     // on crée un objet personne
-//     let personne = {};
-//     // on passe 2 clés et 2 valeurs
-//     personne.prenom = "Joachim";
-//     personne.age = 53;
-//     // on appelle l'objet lors de la requete
-//     req.personne = personne;
-//     // fonction obligatoire pour "passer la main" à la route
-//     next();
-// };
+// Test du moteur de vue
+app.get('/', (req, res) => {
 
-// // //Appel du middelware
-// app.use(mesPersonnes);
+    res.render('layout', {
+        titre:"Je compile du JS en HTML",
+    });
+
+});
 
 ///////////////////////////////////////////////////////
 
-// DEMARRAGE DU SERVEUR
-app.listen(3000, () => {
-    console.log('http://localhost:3000');
-});
+// Exporter l'instance de serveur vers le bin !
+module.exports = app;
+

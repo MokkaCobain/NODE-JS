@@ -1,0 +1,33 @@
+
+<style>
+
+    table, td {
+        border : thin solid black;
+    }
+
+</style>
+
+<h1>{{titre}}</h1>
+
+<table>
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Prénom</th>
+            <th>Email</th>
+            <th>Date de naissance</th>
+            <th>Mot de Passe</th>  
+        </tr>
+    </thead>
+    <tbody>
+        {% for stagiaire in listeStagiaires %}
+        <tr>
+            <td>{{stagiaire.id}}</td>
+            <td>{{stagiaire.prenom}}</td>
+            <td>{{stagiaire.email}}</td>
+            <td>{{stagiaire.ddn}}</td>
+            <td>{{stagiaire.mdp}}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>

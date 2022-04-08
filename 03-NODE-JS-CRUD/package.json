@@ -4,7 +4,7 @@
   "description": "Realisation d'un CRUD NODE-EXPRESS-MONGODB",
   "main": "app.js",
   "scripts": {
-    "start": "nodemon app"
+    "start": "nodemon bin/www"
   },
   "keywords": [
     "NODEJS",
@@ -15,8 +15,14 @@
   "author": "MokkaCobain",
   "license": "ISC",
   "dependencies": {
+    "bson-objectid": "^2.0.3",
+    "capital-case": "^1.0.4",
+    "dotenv": "^16.0.0",
     "express": "^4.17.3",
-    "mongoose": "^6.2.10"
+    "mongoose": "^6.2.10",
+    "pug": "^3.0.2",
+    "twig": "^1.15.4",
+    "validator": "^13.7.0"
   },
   "devDependencies": {
     "nodemon": "^2.0.15"

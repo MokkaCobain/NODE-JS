@@ -10,13 +10,13 @@ const controller = require('../controllers/stagiaireControllers');
 // LES ROUTES PAR DEFAUT ==> get - post - put - delete (factorisées)
 
 router
-    .route('/dwwm/stagiaires')
+    .route('/')
     .get(controller.allStagiaires)
     .post(controller.addStagiaire);
 
 
 router
-    .route('/dwwm/stagiaires/:id')
+    .route('/:id')
     .get(controller.getStagiaireById)
     .put(controller.updateStagiaireById)
     .delete(controller.deleteStagiaireById);

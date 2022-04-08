@@ -12,11 +12,17 @@ const Stagiaire = require('../models/stagiaireModel');
  exports.allStagiaires =  async function (req, res) {
      // On apelle le model
     const tousStagiaires = await Stagiaire.find({});
-
+    if(!tousStagiaires) {
+        res
+        .status(404)
+        .json({msg : "CA MARCHE PAS"})
+    }
     res
-        .status(200)
-        // On renvoie le model dans la reponse
-        .json(tousStagiaires);
+        .render('stagiaires', {
+            listeStagiaires: tousStagiaires,
+            url: req.baseURL, 
+            titre: "La liste des stagiaires"
+        })
 };
 
 /** 
@@ -41,9 +47,14 @@ exports.addStagiaire = async function (req, res){
  */
 exports.getStagiaireById = async function (req, res) { 
     //.params = cible les paramètres indiqués dans la route
-    // console.log(req.params)
+    let id = req.params.id;
+    if(!ObjectId.isValid(id)) {
+        res
+            .status(200)
+            .json({msg : "Invalid id"});
+    }
 
-    let unStagiaire = await Stagiaire.findOne({prenom : 'morgane'}).exec();
+    let unStagiaire = await Stagiaire.findOne({_id : id});
     console.log(unStagiaire);
         res
             .status(200)
@@ -56,12 +67,20 @@ exports.getStagiaireById = async function (req, res) {
  * @param res 
  */
 exports.updateStagiaireById = async function (req, res) {
-   let prenom = { prenom: 'fabien'};
-   let update = { email : 'monNEWnouveau@email.com'};
-   let modifierUnStagiaire = await Stagiaire.findOneAndUpdate(prenom, update);    
+    let id = req.params.id;
+
+    if(!ObjectId.isValid(id)){
+        res
+            .status(200)
+            .json({msg : 'Invalid id'});
+
+    }else {
+
+    let modifierUnStagiaire = await Stagiaire.findOneAndUpdate({_id : id}, req.body);    
     res
         .status(200)
         .json(modifierUnStagiaire);
+    }
 };
 
 /**
@@ -70,8 +89,17 @@ exports.updateStagiaireById = async function (req, res) {
  * @param res 
  */
 exports.deleteStagiaireById = async function (req, res) {
-    let suppStagiaire = await Stagiaire.deleteOne({ prenom: 'jean-claude'})
+    let id = req.params.id;
+
+    if(!ObjectId.isValid(id)){
+        res
+            .status(200)
+            .json({msg : 'Invalid id'});
+    }else{
+
+    let suppStagiaire = await Stagiaire.findByIdAndDelete({_id : id});
     res
         .status(200)
         .json(suppStagiaire);
-};
+    }
+}

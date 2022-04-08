@@ -1,0 +1,22 @@
+
+
+<h1>Liste des employés</h1>
+
+{{titrePage}}
+
+
+<p>
+    <a href="/ajouter">Ajouter</a>
+</p>
+
+<ul>
+    {% for e in emp %}
+    <li>Prénom : {{e.prenom}}</li>
+    <li>Nom : {{e.nom}}</li>
+    <li>Date de naissance : {{e.ddn}}</li>
+    <li>Sexe : {{e.sexe}}</li>
+    <li>Remarque : {{e.remarque}}</li>
+    <br>
+    {% endfor %}
+    
+</ul>
