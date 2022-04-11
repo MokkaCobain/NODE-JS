@@ -11,16 +11,20 @@ const Employe = require('../models/employeModel');
 exports.allEmployes = async function(req, res) {
 
     const employes = await Employe.find();
-    console.log(employes);
+    console.log(employes); // appelés dans %la boucle for% employes.twig
 
     res
         // nom du fichier twig en 1er parametre
         .render('employes', {
             titrePage: 'La liste des employés', 
-            emp: employes
+            emp: employes,
+            urlModifier: '/modifier',
+            url: '/supprimer'
         });
 
 };
+
+
 
 /**
  * 
@@ -48,44 +52,45 @@ exports.addEmploye = async(req, res) => {
         
 };
 
+
 /**
  * 
  * @param {*} req 
  * @param {*} res 
  */
-exports.getEmployeById = function (req, res) {
-
+exports.formModifier  = async (req, res) => {
+    const employeParId = await Employe.findOne({_id: req.params.id});
     res
-        .json({
-            statut: res.statusCode,
-            msg:'Route GET BY ID is ok'
+        .render('modifier', { 
+            data : employeParId,
+            titrePage: 'Veuillez remplir le formulaire de modification'
         });
+
 };
+
 
 /**
  * 
  * @param {*} req 
  * @param {*} res 
  */
-exports.updateEmployeById = function (req, res) {
+exports.updateEmploye = async function (req, res) {
+   await Employe.findOneAndUpdate(req.params.id, req.body);
     res
-    .json({
-        statut: res.statusCode,
-        msg:'Route PUT BY ID is ok'
-    });
+        .redirect('/')
 };
+
 
 /**
  * 
  * @param {*} req 
  * @param {*} res 
  */
-exports.deleteEmployeById = (req, res) => {
+exports.deleteEmploye = async (req, res) => {
+    await Stagiaire.findByIdAndDelete(req.params.id);
     res
-    .json({
-        statut: res.statusCode,
-        msg:'Route DELETE BY ID is ok'
-    });
+        .redirect('/')
+
 };
 
 

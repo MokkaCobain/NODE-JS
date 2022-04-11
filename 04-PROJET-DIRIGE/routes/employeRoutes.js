@@ -16,10 +16,13 @@ router
     .post(controller.addEmploye);
 
 router
-    .route('/:id')
-    .get(controller.getEmployeById)
-    .put(controller.updateEmployeById)
-    .delete(controller.deleteEmployeById);
+    .route('/modifier/:id')
+    .get(controller.formModifier)
+    .put(controller.updateEmploye)
+
+router
+    .route('/supprimer/:id')
+    .delete(controller.deleteEmploye);
 
 
 module.exports= router;

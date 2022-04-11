@@ -1,3 +1,7 @@
+// Import module express
+const express = require('express');
+// Import du module 
+const methodOverride = require('method-override');
 // Import des ROUTES
 const employeRoutes = require('./routes/employeRoutes');
 
@@ -7,17 +11,16 @@ const log = require('morgan');
 // Import du module twig 
 const twig = require('twig');
 
-// Import module express
-const express = require('express');
-
 // Import de la connexion à la base de données
 require('./config/database');
 
 //Instance de serveur
 const app = express();
 
-// Configuration du moteur de vue
+// Appel de la méthode delete 
+app.use(methodOverride('_method'));
 
+// Configuration du moteur de vue
 app.set('view engine', 'twig');
 app.set('views', './views');
 

@@ -9,14 +9,32 @@
     <a href="/ajouter">Ajouter</a>
 </p>
 
-<ul>
-    {% for e in emp %}
-    <li>Prénom : {{e.prenom}}</li>
-    <li>Nom : {{e.nom}}</li>
-    <li>Date de naissance : {{e.ddn}}</li>
-    <li>Sexe : {{e.sexe}}</li>
-    <li>Remarque : {{e.remarque}}</li>
-    <br>
-    {% endfor %}
-    
-</ul>
+<table style="border:thin solid 1px">
+    <thead>
+        <tr>
+            <th>Prénom</th>
+            <th>Nom</th>
+            <th>Date de naissance</th>
+            <th>Sexe</th>
+            <th>Remarque</th>
+            <th colspan="2">Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for e in emp %}
+        <tr>
+            <td>{{ e.prenom}}</td>
+            <td>{{e.nom}}</td>
+            <td>{{e.ddn}}</td>
+            <td>{{e.sexe}}</td>
+            <td>{{e.remarque}}</td>
+            <td><a href="{{urlModifier}}/{{e.id}}">Modifier</a></td>
+            <td>
+            <form method="post" action="{{urlSupprimer}}/{{employe._id}}?_method=DELETE">
+                <input type="delete">
+            </form>
+            </td> 
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>

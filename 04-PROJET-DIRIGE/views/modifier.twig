@@ -1,0 +1,21 @@
+<h1>Formulaire de modificacion</h1>
+
+<h2>{{titrePage}}</h2>
+
+<form method="post" action="/modifier/{{data._id}}?_method=PUT">
+
+    <input type="hidden" name="_id" id="" value="{{data._id}}">
+
+    <input type="text" name="prenom" placeholder="prenom" value="{{data.prenom}}">
+    
+    <input type="text" name="nom" placeholder="nom" required value="{{data.email}}">
+    
+    <input type="date" name="ddn" placeholder="ddn" required value="{{data.ddn}}">
+    
+    <input type="text" name="sexe" placeholder="sexe" value="{{data.sexe}}">
+
+    <input type="text" name="remarque" placeholder="remarque" value="{{data.remarque}}">
+
+    <button type="submit">Valider</button>
+    
+</form>

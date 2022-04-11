@@ -3,7 +3,7 @@
 const mongoose = require('mongoose');
 
 // Import module validator
-const validator = require('validator');
+// const validator = require('validator');
 
 // Appel de la class Schéma 
 const Schema = mongoose.Schema;
